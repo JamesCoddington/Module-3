@@ -17,7 +17,7 @@ public class Tile : MonoBehaviour
     public GameObject bombText;
     public GameObject space;
     public Vector3 position;
-    public Type type = Type.Empty;
+    public Type type;
     public int number;
     public bool revealed;
     public bool flagged;
@@ -30,8 +30,12 @@ public class Tile : MonoBehaviour
 
     public List<Tile> nearbyTiles;
 
+    private bool isChecked;
+
     private void Start()
     {
+        isChecked = false;
+        type = Type.Empty;
         position = transform.position;
         rightTilePosition = position - new Vector3(0f, 0f, 1.5f);
         downTilePosition = position - new Vector3(1.5f, 0f, 0f);
@@ -78,18 +82,22 @@ public class Tile : MonoBehaviour
         if (type == Type.Number)
         {
             bombText.GetComponent<TextMesh>().text = number.ToString();
+        } else if (type == Type.Mine)
+        {
+            bombText.GetComponent<TextMesh>().text = "BOMB";
         }
     }
 
     public void OnClick()
     {
         space.SetActive(false);
+        isChecked = true;
         switch (type)
         {
             case Type.Empty:
                 foreach (var tile in nearbyTiles)
                 {
-                    if (tile.type == Type.Empty)
+                    if (tile.type == Type.Empty && !tile.isChecked)
                     {
                         tile.OnClick();
                     }
@@ -99,7 +107,8 @@ public class Tile : MonoBehaviour
                 bombText.SetActive(true);
                 break;
             case Type.Mine:
-                //Blow up mines
+                // Blow up
+                bombText.SetActive(true);
                 break;
         }
     }

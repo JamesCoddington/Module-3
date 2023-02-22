@@ -35,6 +35,7 @@ public class Board : MonoBehaviour
                 place = Random.Range(0, tiles.Length);
             }
             tiles[place].type = Tile.Type.Mine;
+            tiles[place].bombText.GetComponent<TextMesh>().text = "BOMB";
             bombPlaces.Add(place);
         }
         print("Bombs Done");
