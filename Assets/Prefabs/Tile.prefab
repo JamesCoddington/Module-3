@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2880413918639697463}
   - component: {fileID: 2868585615548837595}
+  - component: {fileID: 5492542271285129018}
   m_Layer: 0
   m_Name: Tile
   m_TagString: Tile
@@ -46,6 +47,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3cc83e71ec29444cb687136e89cafe6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bombText: {fileID: 6247717946843776765}
+  space: {fileID: 5301102196816028187}
   position: {x: 0, y: 0, z: 0}
   type: 0
   number: 0
@@ -57,14 +60,19 @@ MonoBehaviour:
   bottomRightTilePosition: {x: 0, y: 0, z: 0}
   topRightTilePosition: {x: 0, y: 0, z: 0}
   nearbyTiles: []
-  rightTile: {fileID: 0}
-  leftTile: {fileID: 0}
-  upTile: {fileID: 0}
-  downTile: {fileID: 0}
-  topLeftTile: {fileID: 0}
-  topRightTile: {fileID: 0}
-  bottomLeftTile: {fileID: 0}
-  bottomRightTile: {fileID: 0}
+--- !u!65 &5492542271285129018
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475461707880966937}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &5301102196816028187
 GameObject:
   m_ObjectHideFlags: 0
@@ -179,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &5181474172607704145
 Transform:
   m_ObjectHideFlags: 0
@@ -245,7 +253,7 @@ TextMesh:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6247717946843776765}
-  m_Text: 1
+  m_Text: 
   m_OffsetZ: 0
   m_CharacterSize: 1
   m_LineSpacing: 1

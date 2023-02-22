@@ -27,7 +27,7 @@ public class Board : MonoBehaviour
     {
         var bombPlaces = new List<int>();
         Tile[] tiles = GetComponentsInChildren<Tile>();
-        for (int i = 0; i < 60; i++)
+        for (int i = 0; i < 20; i++)
         {
             var place = Random.Range(0, tiles.Length);
             while (bombPlaces.Contains(place))
@@ -38,5 +38,18 @@ public class Board : MonoBehaviour
             bombPlaces.Add(place);
         }
         print("Bombs Done");
+        SetNumbers();
+    }
+
+    private void SetNumbers()
+    {
+        Tile[] tiles = GetComponentsInChildren<Tile>();
+        foreach (var tile in tiles)
+        {
+            if (tile.type != Tile.Type.Mine)
+            {
+                tile.SetBombCount();
+            }
+        }
     }
 }

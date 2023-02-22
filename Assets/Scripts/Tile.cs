@@ -14,8 +14,10 @@ public class Tile : MonoBehaviour
         Number,
     }
 
+    public GameObject bombText;
+    public GameObject space;
     public Vector3 position;
-    public Type type;
+    public Type type = Type.Empty;
     public int number;
     public bool revealed;
     public bool flagged;
@@ -28,19 +30,8 @@ public class Tile : MonoBehaviour
 
     public List<Tile> nearbyTiles;
 
-    public Tile rightTile;
-    public Tile leftTile;
-    public Tile upTile;
-    public Tile downTile;
-
-    public Tile topLeftTile;
-    public Tile topRightTile;
-    public Tile bottomLeftTile;
-    public Tile bottomRightTile;
-
     private void Start()
     {
-        type = Type.Empty;
         position = transform.position;
         rightTilePosition = position - new Vector3(0f, 0f, 1.5f);
         downTilePosition = position - new Vector3(1.5f, 0f, 0f);
@@ -55,29 +46,61 @@ public class Tile : MonoBehaviour
             print(tile.position == rightTilePosition);
             if (tile.position == rightTilePosition)
             {
-                // rightTile = tile;
-                // tile.leftTile = this;
                 nearbyTiles.Add(tile);
                 tile.nearbyTiles.Add(this);
             } else if (tile.position == downTilePosition)
             {
-                // downTile = tile;
-                // tile.upTile = this;
                 nearbyTiles.Add(tile);
                 tile.nearbyTiles.Add(this);
             } else if (tile.position == topRightTilePosition)
             {
-                // topRightTile = tile;
-                // tile.bottomLeftTile = this;
                 nearbyTiles.Add(tile);
                 tile.nearbyTiles.Add(this);
             } else if (tile.position == bottomRightTilePosition)
             {
-                // bottomRightTile = tile;
-                // tile.topLeftTile = this;
                 nearbyTiles.Add(tile);
                 tile.nearbyTiles.Add(this);
             }
+        }
+    }
+
+    public void SetBombCount()
+    {
+        foreach (var tile in nearbyTiles)
+        {
+            if (tile.type == Type.Mine)
+            {
+                type = Type.Number;
+                number += 1;
+            }
+        }
+
+        if (type == Type.Number)
+        {
+            bombText.GetComponent<TextMesh>().text = number.ToString();
+        }
+    }
+
+    public void OnClick()
+    {
+        space.SetActive(false);
+        switch (type)
+        {
+            case Type.Empty:
+                foreach (var tile in nearbyTiles)
+                {
+                    if (tile.type == Type.Empty)
+                    {
+                        tile.OnClick();
+                    }
+                }
+                break;
+            case Type.Number:
+                bombText.SetActive(true);
+                break;
+            case Type.Mine:
+                //Blow up mines
+                break;
         }
     }
 }
