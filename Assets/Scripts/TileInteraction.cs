@@ -24,8 +24,13 @@ namespace Valve.VR.InteractionSystem.Sample
             }
             else if (other.gameObject.CompareTag("lefthand"))
             {
-                
+                tile.flag();
             }
+        }
+
+        private void OnAttachedToHand(Hand hand)
+        {
+            tile.OnClick();
         }
     }
 }

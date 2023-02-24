@@ -16,6 +16,7 @@ public class Tile : MonoBehaviour
 
     public GameObject bombText;
     public GameObject space;
+    public GameObject flag;
     public Vector3 position;
     public Type type;
     public int number;
@@ -36,6 +37,7 @@ public class Tile : MonoBehaviour
     {
         isChecked = false;
         type = Type.Empty;
+        flagged = false;
         position = transform.position;
         rightTilePosition = position - new Vector3(0f, 0f, 1.5f);
         downTilePosition = position - new Vector3(1.5f, 0f, 0f);
@@ -47,7 +49,6 @@ public class Tile : MonoBehaviour
     {
         foreach (var tile in tiles)
         {
-            print(tile.position == rightTilePosition);
             if (tile.position == rightTilePosition)
             {
                 nearbyTiles.Add(tile);
@@ -84,32 +85,55 @@ public class Tile : MonoBehaviour
             bombText.GetComponent<TextMesh>().text = number.ToString();
         } else if (type == Type.Mine)
         {
-            bombText.GetComponent<TextMesh>().text = "BOMB";
+            bombText.GetComponent<TextMesh>().text = "B";
         }
     }
 
     public void OnClick()
     {
-        space.SetActive(false);
-        isChecked = true;
-        switch (type)
+        if (!flagged)
         {
-            case Type.Empty:
-                foreach (var tile in nearbyTiles)
-                {
-                    if (tile.type == Type.Empty && !tile.isChecked)
+            space.SetActive(false);
+            isChecked = true;
+            switch (type)
+            {
+                case Type.Empty:
+                    foreach (var tile in nearbyTiles)
                     {
-                        tile.OnClick();
+                        if (tile.type == Type.Empty && !tile.isChecked)
+                        {
+                            tile.OnClick();
+                        }
                     }
-                }
-                break;
-            case Type.Number:
-                bombText.SetActive(true);
-                break;
-            case Type.Mine:
-                // Blow up
-                bombText.SetActive(true);
-                break;
+                    break;
+                case Type.Number:
+                    bombText.SetActive(true);
+                    break;
+                case Type.Mine:
+                    bombText.SetActive(true);
+                    // BlowUp();
+                    break;
+            }
+        }
+    }
+
+    public void Flag()
+    {
+        flagged = !flagged;
+        flag.SetActive(flagged);
+    }
+
+    public void BlowUp()
+    {
+        foreach (var tile in nearbyTiles)
+        {
+            if (tile.type == Type.Mine && tile.isChecked == false)
+            {
+                tile.space.SetActive(false);
+                tile.bombText.SetActive(true);
+            }
+            tile.isChecked = true;
+
         }
     }
 }
