@@ -15,10 +15,17 @@ namespace Valve.VR.InteractionSystem.Sample
             interactable = this.GetComponent<Interactable>();
         }
 
-        private void OnAttachedToHand(Hand hand)
+        private void OnTriggerEnter(Collider other)
         {
             print("handy");
-            tile.OnClick();
+            if (other.gameObject.CompareTag("righthand"))
+            {
+                tile.OnClick();
+            }
+            else if (other.gameObject.CompareTag("lefthand"))
+            {
+                
+            }
         }
     }
 }
